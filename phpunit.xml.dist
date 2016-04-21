@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- http://phpunit.de/manual/4.1/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.5/phpunit.xsd"
+         backupGlobals="false" colors="true"
+         bootstrap="vendor/composer/autoload_real.php">
+    <testsuites>
+        <testsuite name="main">
+            <directory>./src/DSL/*/Tests</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">src</directory>
+        </whitelist>
+        <blaclist>
+            <directory suffix=".php">vendor</directory>
+        </blaclist>
+    </filter>
+</phpunit>
