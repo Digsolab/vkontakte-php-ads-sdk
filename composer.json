@@ -1,0 +1,20 @@
+{
+    "name": "dsl/client-vkontakte",
+    "description": "VK ads API client",
+    "autoload": {
+        "psr-4": { "DSL\\": "src/DSL" }
+    },
+    "require": {
+        "guzzlehttp/guzzle": "~6.0",
+        "dsl/converters": "~0.0.1"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~4.4, <=4.8"
+    },
+    "authors": [
+        {
+            "name": "Vasil coylOne Kulakov",
+            "email": "iam@vasiliy.pro"
+        }
+    ]
+}
