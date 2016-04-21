@@ -144,6 +144,7 @@ class VkontakteClient
      * @param string $linkDomain
      *
      * @return ClientResponse[]
+     * @throws \DSL\Converter\ConversionException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws Ex\FloodException
      * @throws Ex\Exception
@@ -153,10 +154,11 @@ class VkontakteClient
      */
     public function getCoverage($accountId, $accessToken, array $settings, $linkDomain)
     {
+        $settingsStr = $this->jsonConverter->encode($settings);
         $body = [
             'account_id' => $accountId,
             'access_token' => $accessToken,
-            'criteria' => $settings,
+            'criteria' => $settingsStr,
             'link_domain' => $linkDomain,
             'link_url' => '1',
         ];
@@ -207,10 +209,11 @@ class VkontakteClient
         $body = null,
         array $headers = []
     ) {
+        $this->lastResponse = $this->lastRequest = null;
         try {
             $request = new GuzzleRequest('POST', $uri, $headers, http_build_query($body));
-            $response = $this->transport->send($request);
             $this->lastRequest = $request;
+            $response = $this->transport->send($request);
             $this->lastResponse = $response;
         } catch (TransferException $exception) {
             throw new Ex\ConnectException($exception->getMessage());
@@ -244,9 +247,8 @@ class VkontakteClient
             throw new Ex\BadResponseContentException($exception->getMessage(), self::ERROR_UNKNOWN);
         }
 
-        if (isset($body['error'])) {
-            $errorCode = isset($body['error']['error_code']) ? (int) $body['error']['error_code'] : 0;
-            $errorMessage = isset($body['error']['error_msg']) ? $body['error']['error_msg'] : '';
+        if (array_key_exists('error', $body)) {
+            list($errorCode, $errorMessage) = $this->parseError($body['error']);
 
             if (in_array($errorCode, self::$floodErrors, true)) {
                 throw new Ex\FloodException($errorMessage, $errorCode);
@@ -255,18 +257,14 @@ class VkontakteClient
             } else if ( ! in_array($errorCode, self::$partialErrors, true)) {
                 throw new Ex\Exception($errorMessage, $errorCode);
             }
-        } else if (isset($body['response'])) {
+        } else if (array_key_exists('response', $body)) {
             $clientResponses = [];
-            if (is_array($body['response'])) {
-                foreach ($body['response'] as $resp) {
-                    $errorCode = isset($resp['error_code']) ? $resp['error_code'] : 0;
-                    $errorMessage = isset($resp['error_desc']) ? $resp['error_desc'] : '';
-                    $clientResponses[] = new ClientResponse($statusCode, $resp, $errorCode, $errorMessage);
-                }
-            } else {
-                $errorCode = isset($body['response']['error_code']) ? $body['response']['error_code'] : 0;
-                $errorMessage = isset($body['response']['error_desc']) ? $body['response']['error_desc'] : '';
-                $clientResponses[] = new ClientResponse($statusCode, $body['response'], $errorCode, $errorMessage);
+            if ( array_key_exists('error_code', $body['response']) || array_key_exists('error_desc', $body['response'])) {
+                $body['response'] = [$body['response']];
+            }
+            foreach ($body['response'] as $resp) {
+                list($errorCode, $errorMessage) = $this->parseError($resp);
+                $clientResponses[] = new ClientResponse($statusCode, $resp, $errorCode, $errorMessage);
             }
 
             return $clientResponses;
@@ -275,6 +273,19 @@ class VkontakteClient
         }
 
         throw new Ex\BadResponseContentException('Vk error - unknown response', self::ERROR_UNKNOWN);
+    }
+
+    /**
+     * @param $resp
+     *
+     * @return array
+     */
+    private function parseError(array $resp)
+    {
+        $errorCode = array_key_exists('error_code', $resp) ? $resp['error_code'] : 0;
+        $errorMessage = array_key_exists('error_desc', $resp) ? $resp['error_desc'] : '';
+
+        return [$errorCode, $errorMessage];
     }
 
     /**
