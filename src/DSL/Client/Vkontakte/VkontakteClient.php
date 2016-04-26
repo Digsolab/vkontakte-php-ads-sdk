@@ -9,11 +9,11 @@ use DSL\Client\Vkontakte\Exception as Ex;
 use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Exception\TransferException;
-use GuzzleHttp\Psr7\Request as GuzzleRequest;
-use GuzzleHttp\Psr7\Response as GuzzleResponse;
+use GuzzleHttp\Psr7\Request;
+use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\ResponseInterface;
 
-class VkontakteClient
+class VkontakteClient implements VkontakteClientInterface
 {
     const STATUS_PARTIAL_DONE = 602;
     const STATUS_NOT_DONE = 603;
@@ -28,9 +28,9 @@ class VkontakteClient
     protected $transport;
     /** @var JsonConverter */
     protected $jsonConverter;
-    /** @var GuzzleRequest */
+    /** @var RequestInterface */
     protected $lastRequest;
-    /** @var GuzzleResponse */
+    /** @var ResponseInterface */
     protected $lastResponse;
 
     /**
@@ -44,12 +44,8 @@ class VkontakteClient
     }
 
     /**
-     * @param $accountId
-     * @param $accessToken
-     * @param $clientId
-     * @param $limit
+     * {@inheritdoc}
      *
-     * @return ClientResponse[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws Ex\FloodException
      * @throws Ex\Exception
@@ -74,12 +70,8 @@ class VkontakteClient
     }
 
     /**
-     * @param array $campaignIds
-     * @param int   $accountId
-     * @param int   $accessToken
-     * @param int   $status
+     * {@inheritdoc}
      *
-     * @return ClientResponse[]
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws Ex\FloodException
      * @throws Ex\Exception
@@ -116,15 +108,13 @@ class VkontakteClient
     }
 
     /**
-     * @param $group
+     * {@inheritdoc}
      *
-     * @return ClientResponse[]
      * @throws Ex\FloodException
      * @throws Ex\Exception
      * @throws Ex\BadResponseContentException
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
-     *
      * @throws GuzzleException
      */
     public function getGroup($group)
@@ -138,12 +128,8 @@ class VkontakteClient
     }
 
     /**
-     * @param int    $accountId
-     * @param string $accessToken
-     * @param array  $settings
-     * @param string $linkDomain
+     * {@inheritdoc}
      *
-     * @return ClientResponse[]
      * @throws \DSL\Converter\ConversionException
      * @throws \GuzzleHttp\Exception\GuzzleException
      * @throws Ex\FloodException
@@ -167,11 +153,8 @@ class VkontakteClient
     }
 
     /**
-     * @param string $uri
-     * @param array  $body
-     * @param array  $headers
+     * {@inheritdoc}
      *
-     * @return ClientResponse[]
      * @throws GuzzleException
      * @throws Ex\FloodException
      * @throws Ex\Exception
@@ -192,11 +175,8 @@ class VkontakteClient
     }
 
     /**
-     * @param string $uri
-     * @param string $body
-     * @param array  $headers
+     * {@inheritdoc}
      *
-     * @return ClientResponse[]
      * @throws Ex\FloodException
      * @throws Ex\BadResponseContentException
      * @throws Ex\AccessException
@@ -211,7 +191,7 @@ class VkontakteClient
     ) {
         $this->lastResponse = $this->lastRequest = null;
         try {
-            $request = new GuzzleRequest('POST', $uri, $headers, http_build_query($body));
+            $request = new Request('POST', $uri, $headers, http_build_query($body));
             $this->lastRequest = $request;
             $response = $this->transport->send($request);
             $this->lastResponse = $response;
@@ -225,9 +205,8 @@ class VkontakteClient
     }
 
     /**
-     * @param ResponseInterface $response
-     *
-     * @return ClientResponse[]
+     * {@inheritdoc}
+     * 
      * @throws Ex\BadResponseContentException
      * @throws Ex\Exception
      * @throws Ex\AccessException
@@ -289,7 +268,7 @@ class VkontakteClient
     }
 
     /**
-     * @return GuzzleRequest
+     * @return RequestInterface
      */
     public function getLastRequest()
     {
@@ -297,7 +276,7 @@ class VkontakteClient
     }
 
     /**
-     * @return GuzzleResponse
+     * @return ResponseInterface
      */
     public function getLastResponse()
     {
