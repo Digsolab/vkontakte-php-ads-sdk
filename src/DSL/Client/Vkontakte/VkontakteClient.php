@@ -183,7 +183,7 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
      */
-    public function getCampaigns($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds)
+    public function getCampaigns($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null)
     {
         $campaignIdsStr = $this->jsonConverter->encode($campaignIds);
         $body = [
@@ -208,7 +208,7 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
      */
-    public function getAds($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds, array $adIds, $limit, $offset)
+    public function getAds($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset)
     {
         $campaignIdsStr = $this->jsonConverter->encode($campaignIds);
         $adIdsStr = $this->jsonConverter->encode($adIds);
@@ -237,7 +237,7 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
      */
-    public function getAdsLayout($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds, array $adIds, $limit, $offset)
+    public function getAdsLayout($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset)
     {
         $campaignIdsStr = $this->jsonConverter->encode($campaignIds);
         $adIdsStr = $this->jsonConverter->encode($adIds);
@@ -266,7 +266,7 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
      */
-    public function getAdsTargeting($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds, array $adIds, $limit, $offset)
+    public function getAdsTargeting($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset)
     {
         $campaignIdsStr = $this->jsonConverter->encode($campaignIds);
         $adIdsStr = $this->jsonConverter->encode($adIds);
@@ -294,7 +294,7 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
      */
-    public function getStatistics($accountId, $accessToken, $idsType, array $ids, $period, $dateFrom, $dateTo)
+    public function getStatistics($accountId, $accessToken, $idsType, array $ids = null, $period, $dateFrom, $dateTo)
     {
         $idsStr = implode(',', $ids);
         $body = [
@@ -320,7 +320,7 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
      */
-    public function getDemographics($accountId, $accessToken, $idsType, array $ids, $period, $dateFrom, $dateTo)
+    public function getDemographics($accountId, $accessToken, $idsType, array $ids = null, $period, $dateFrom, $dateTo)
     {
         $idsStr = implode(',', $ids);
         $body = [
@@ -347,7 +347,7 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
      */
-    public function getTargetingStats($accountId, $accessToken, array $criteria, $adId, $adFormat, $adPlatform, $linkUrl, $linkDomain)
+    public function getTargetingStats($accountId, $accessToken, array $criteria = null, $adId, $adFormat, $adPlatform, $linkUrl, $linkDomain)
     {
         $criteriaStr = $this->jsonConverter->encode($criteria);
         $body = [
@@ -362,6 +362,74 @@ class VkontakteClient implements VkontakteClientInterface
         ];
 
         return $this->call('ads.getTargetingStats', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getCategories($accessToken, $lang = 'ru')
+    {
+        $body = [
+            'access_token' => $accessToken,
+            'lang' => $lang,
+        ];
+
+        return $this->call('ads.getCategories', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getCountries($needAll, $code, $offset, $count, $lang = 'ru')
+    {
+        $body = [
+            'need_all' => $needAll,
+            'code' => $code,
+            'offset' => $offset,
+            'count' => $count,
+            'lang' => $lang,
+        ];
+
+        return $this->call('database.getCountries', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getCities($countryId, $regionId, $q, $needAll, $offset, $count, $lang = 'ru')
+    {
+        $body = [
+            'country_id' => $countryId,
+            'region_id' => $regionId,
+            'q' => $q,
+            'need_all' => $needAll,
+            'offset' => $offset,
+            'count' => $count,
+            'lang' => $lang,
+        ];
+
+        return $this->call('database.getCities', $body, []);
     }
 
     /**
