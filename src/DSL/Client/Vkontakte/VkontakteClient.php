@@ -542,7 +542,7 @@ class VkontakteClient implements VkontakteClientInterface
     private function parseError(array $resp)
     {
         $errorCode = array_key_exists('error_code', $resp) ? $resp['error_code'] : 0;
-        $errorMessage = array_key_exists('error_desc', $resp) ? $resp['error_desc'] : '';
+        $errorMessage = array_key_exists('error_msg', $resp) ? $resp['error_msg'] : '';
 
         return [$errorCode, $errorMessage];
     }
