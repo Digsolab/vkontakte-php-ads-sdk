@@ -61,7 +61,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getCampaigns($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null);
+    public function getCampaigns($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds);
 
     /**
      * @param int $accountId
@@ -75,7 +75,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getAds($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset);
+    public function getAds($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds, array $adIds, $limit, $offset);
 
     /**
      * @param int $accountId
@@ -89,7 +89,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getAdsLayout($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset);
+    public function getAdsLayout($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds, array $adIds, $limit, $offset);
 
     /**
      * @param int $accountId
@@ -103,7 +103,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getAdsTargeting($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset);
+    public function getAdsTargeting($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds, array $adIds, $limit, $offset);
 
     /**
      * @param int $accountId
@@ -116,7 +116,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getStatistics($accountId, $accessToken, $idsType, array $ids = null, $period, $dateFrom, $dateTo);
+    public function getStatistics($accountId, $accessToken, $idsType, array $ids, $period, $dateFrom, $dateTo);
 
     /**
      * @param int $accountId
@@ -129,7 +129,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getDemographics($accountId, $accessToken, $idsType, array $ids = null, $period, $dateFrom, $dateTo);
+    public function getDemographics($accountId, $accessToken, $idsType, array $ids, $period, $dateFrom, $dateTo);
 
     /**
      * @param int $accountId
@@ -143,7 +143,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getTargetingStats($accountId, $accessToken, array $criteria = null, $adId, $adFormat, $adPlatform, $linkUrl, $linkDomain);
+    public function getTargetingStats($accountId, $accessToken, array $criteria, $adId, $adFormat, $adPlatform, $linkUrl, $linkDomain);
 
     /**
      * @param string $accessToken
@@ -151,7 +151,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getCategories($accessToken, $lang = 'ru');
+    public function getCategories($accessToken, $lang);
 
     /**
      * @param int $needAll
@@ -162,7 +162,18 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getCountries($needAll, $code, $offset, $count, $lang = 'ru');
+    public function getCountries($needAll, $code, $offset, $count, $lang);
+
+    /**
+     * @param int $countryId
+     * @param string $q
+     * @param int $offset
+     * @param int $count
+     * @param string $lang
+     *
+     * @return ClientResponse[]
+     */
+    public function getRegions($countryId, $q, $offset, $count, $lang);
 
     /**
      * @param int $countryId
@@ -175,7 +186,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getCities($countryId, $regionId, $q, $needAll, $offset, $count, $lang = 'ru');
+    public function getCities($countryId, $regionId, $q, $needAll, $offset, $count, $lang);
 
     /**
      * @return RequestInterface|null

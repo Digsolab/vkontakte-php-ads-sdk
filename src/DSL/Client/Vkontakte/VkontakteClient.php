@@ -417,6 +417,30 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\AccessException
      * @throws Ex\ConnectException
      */
+    public function getRegions($countryId, $q, $offset, $count, $lang = 'ru')
+    {
+        $body = [
+            'country_id' => $countryId,
+            'q' => $q,
+            'offset' => $offset,
+            'count' => $count,
+            'lang' => $lang,
+        ];
+
+        return $this->call('database.getRegions', $body, []);
+
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
     public function getCities($countryId, $regionId, $q, $needAll, $offset, $count, $lang = 'ru')
     {
         $body = [
@@ -542,7 +566,7 @@ class VkontakteClient implements VkontakteClientInterface
     private function parseError(array $resp)
     {
         $errorCode = array_key_exists('error_code', $resp) ? $resp['error_code'] : 0;
-        $errorMessage = array_key_exists('error_msg', $resp) ? $resp['error_msg'] : '';
+        $errorMessage = array_key_exists('error_desc', $resp) ? $resp['error_desc'] : array_key_exists('error_msg', $resp) ? $resp['error_msg'] : '';
 
         return [$errorCode, $errorMessage];
     }
