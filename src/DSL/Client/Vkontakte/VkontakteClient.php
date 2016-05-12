@@ -117,11 +117,14 @@ class VkontakteClient implements VkontakteClientInterface
      * @throws Ex\ConnectException
      * @throws GuzzleException
      */
-    public function getGroup($group)
+    public function getGroup($group, array $fields = [])
     {
+        if (0 === count($fields)) {
+            $fields = ['members_count', 'screen_name'];
+        }
         $body = [
             'group_id' => $group,
-            'fields' => 'members_count,screen_name',
+            'fields' => implode(',', $fields),
         ];
 
         return $this->call('groups.getById', $body, []);
@@ -206,7 +209,7 @@ class VkontakteClient implements VkontakteClientInterface
 
     /**
      * {@inheritdoc}
-     * 
+     *
      * @throws Ex\BadResponseContentException
      * @throws Ex\Exception
      * @throws Ex\AccessException
@@ -262,7 +265,14 @@ class VkontakteClient implements VkontakteClientInterface
     private function parseError(array $resp)
     {
         $errorCode = array_key_exists('error_code', $resp) ? $resp['error_code'] : 0;
-        $errorMessage = array_key_exists('error_desc', $resp) ? $resp['error_desc'] : '';
+        $errorMessage = '';
+
+        if (array_key_exists('error_desc', $resp)) {
+            $errorMessage = $resp['error_desc'];
+        }
+        if (array_key_exists('error_msg', $resp)) {
+            $errorMessage = $resp['error_msg'];
+        }
 
         return [$errorCode, $errorMessage];
     }
