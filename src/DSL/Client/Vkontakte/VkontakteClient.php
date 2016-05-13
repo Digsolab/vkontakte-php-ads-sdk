@@ -548,9 +548,17 @@ class VkontakteClient implements VkontakteClientInterface
             if ( array_key_exists('error_code', $body['response']) || array_key_exists('error_desc', $body['response'])) {
                 $body['response'] = [$body['response']];
             }
-            foreach ($body['response'] as $resp) {
-                list($errorCode, $errorMessage) = $this->parseError($resp);
-                $clientResponses[] = new ClientResponse($statusCode, $resp, $errorCode, $errorMessage);
+            foreach ($body['response'] as $key => $resp) {
+                if (is_numeric($key)) {
+                    // Collection response
+                    list($errorCode, $errorMessage) = $this->parseError($resp);
+                    $clientResponses[] = new ClientResponse($statusCode, $resp, $errorCode, $errorMessage);
+                } else {
+                    // Single object response
+                    list($errorCode, $errorMessage) = $this->parseError($body['response']);
+                    $clientResponses = new ClientResponse($statusCode, $body['response'], $errorCode, $errorMessage);
+                    break;
+                }
             }
 
             return $clientResponses;
