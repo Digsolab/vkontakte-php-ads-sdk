@@ -32,7 +32,7 @@ interface VkontakteClientInterface
      *
      * @return ClientResponse[]
      */
-    public function getGroup($group);
+    public function getGroup($group, array $fields);
 
     /**
      * @param int $accountId
