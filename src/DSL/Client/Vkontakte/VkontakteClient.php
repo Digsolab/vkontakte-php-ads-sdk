@@ -158,6 +158,310 @@ class VkontakteClient implements VkontakteClientInterface
     /**
      * {@inheritdoc}
      *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getClients($accountId, $accessToken)
+    {
+        $body = [
+            'account_id' => $accountId,
+            'access_token' => $accessToken,
+        ];
+
+        return $this->call('ads.getClients', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \DSL\Converter\ConversionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getCampaigns($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null)
+    {
+        $campaignIdsStr = $this->jsonConverter->encode($campaignIds);
+        $body = [
+            'account_id' => $accountId,
+            'access_token' => $accessToken,
+            'client_id' => $clientId,
+            'include_deleted' => $includeDeleted,
+            'campaign_ids' => $campaignIdsStr,
+        ];
+
+        return $this->call('ads.getCampaigns', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \DSL\Converter\ConversionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getAds($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset)
+    {
+        $campaignIdsStr = $this->jsonConverter->encode($campaignIds);
+        $adIdsStr = $this->jsonConverter->encode($adIds);
+        $body = [
+            'account_id' => $accountId,
+            'access_token' => $accessToken,
+            'client_id' => $clientId,
+            'include_deleted' => $includeDeleted,
+            'campaign_ids' => $campaignIdsStr,
+            'ad_ids' => $adIdsStr,
+            'limit' => $limit,
+            'offset' => $offset,
+        ];
+
+        return $this->call('ads.getAds', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \DSL\Converter\ConversionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getAdsLayout($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset)
+    {
+        $campaignIdsStr = $this->jsonConverter->encode($campaignIds);
+        $adIdsStr = $this->jsonConverter->encode($adIds);
+        $body = [
+            'account_id' => $accountId,
+            'access_token' => $accessToken,
+            'client_id' => $clientId,
+            'include_deleted' => $includeDeleted,
+            'campaign_ids' => $campaignIdsStr,
+            'ad_ids' => $adIdsStr,
+            'limit' => $limit,
+            'offset' => $offset,
+        ];
+
+        return $this->call('ads.getAdsLayout', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \DSL\Converter\ConversionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getAdsTargeting($accountId, $accessToken, $clientId, $includeDeleted, array $campaignIds = null, array $adIds = null, $limit, $offset)
+    {
+        $campaignIdsStr = $this->jsonConverter->encode($campaignIds);
+        $adIdsStr = $this->jsonConverter->encode($adIds);
+        $body = [
+            'account_id' => $accountId,
+            'access_token' => $accessToken,
+            'client_id' => $clientId,
+            'include_deleted' => $includeDeleted,
+            'campaign_ids' => $campaignIdsStr,
+            'ad_ids' => $adIdsStr,
+            'limit' => $limit,
+            'offset' => $offset,
+        ];
+
+        return $this->call('ads.getAdsTargeting', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getStatistics($accountId, $accessToken, $idsType, array $ids = null, $period, $dateFrom, $dateTo)
+    {
+        $idsStr = implode(',', $ids);
+        $body = [
+            'account_id' => $accountId,
+            'access_token' => $accessToken,
+            'ids_type' => $idsType,
+            'ids' => $idsStr,
+            'period' => $period,
+            'date_from' => $dateFrom,
+            'date_to' => $dateTo,
+        ];
+
+        return $this->call('ads.getStatistics', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getDemographics($accountId, $accessToken, $idsType, array $ids = null, $period, $dateFrom, $dateTo)
+    {
+        $idsStr = implode(',', $ids);
+        $body = [
+            'account_id' => $accountId,
+            'access_token' => $accessToken,
+            'ids_type' => $idsType,
+            'ids' => $idsStr,
+            'period' => $period,
+            'date_from' => $dateFrom,
+            'date_to' => $dateTo,
+        ];
+
+        return $this->call('ads.getDemographics', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \DSL\Converter\ConversionException
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getTargetingStats($accountId, $accessToken, array $criteria = null, $adId, $adFormat, $adPlatform, $linkUrl, $linkDomain)
+    {
+        $criteriaStr = $this->jsonConverter->encode($criteria);
+        $body = [
+            'account_id' => $accountId,
+            'access_token' => $accessToken,
+            'criteria' => $criteriaStr,
+            'ad_id' => $adId,
+            'ad_format' => $adFormat,
+            'ad_platform' => $adPlatform,
+            'link_url' => $linkUrl,
+            'link_domain' => $linkDomain,
+        ];
+
+        return $this->call('ads.getTargetingStats', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getCategories($accessToken, $lang = 'ru')
+    {
+        $body = [
+            'access_token' => $accessToken,
+            'lang' => $lang,
+        ];
+
+        return $this->call('ads.getCategories', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getCountries($needAll, $code, $offset, $count, $lang = 'ru')
+    {
+        $body = [
+            'need_all' => $needAll,
+            'code' => $code,
+            'offset' => $offset,
+            'count' => $count,
+            'lang' => $lang,
+        ];
+
+        return $this->call('database.getCountries', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getRegions($countryId, $q, $offset, $count, $lang = 'ru')
+    {
+        $body = [
+            'country_id' => $countryId,
+            'q' => $q,
+            'offset' => $offset,
+            'count' => $count,
+            'lang' => $lang,
+        ];
+
+        return $this->call('database.getRegions', $body, []);
+
+    }
+
+    /**
+     * {@inheritdoc}
+     *
+     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @throws Ex\FloodException
+     * @throws Ex\Exception
+     * @throws Ex\BadResponseContentException
+     * @throws Ex\AccessException
+     * @throws Ex\ConnectException
+     */
+    public function getCities($countryId, $regionId, $q, $needAll, $offset, $count, $lang = 'ru')
+    {
+        $body = [
+            'country_id' => $countryId,
+            'region_id' => $regionId,
+            'q' => $q,
+            'need_all' => $needAll,
+            'offset' => $offset,
+            'count' => $count,
+            'lang' => $lang,
+        ];
+
+        return $this->call('database.getCities', $body, []);
+    }
+
+    /**
+     * {@inheritdoc}
+     *
      * @throws GuzzleException
      * @throws Ex\FloodException
      * @throws Ex\Exception
@@ -244,9 +548,17 @@ class VkontakteClient implements VkontakteClientInterface
             if ( array_key_exists('error_code', $body['response']) || array_key_exists('error_desc', $body['response'])) {
                 $body['response'] = [$body['response']];
             }
-            foreach ($body['response'] as $resp) {
-                list($errorCode, $errorMessage) = $this->parseError($resp);
-                $clientResponses[] = new ClientResponse($statusCode, $resp, $errorCode, $errorMessage);
+            foreach ($body['response'] as $key => $resp) {
+                if (is_numeric($key)) {
+                    // Collection response
+                    list($errorCode, $errorMessage) = $this->parseError($resp);
+                    $clientResponses[] = new ClientResponse($statusCode, $resp, $errorCode, $errorMessage);
+                } else {
+                    // Single object response
+                    list($errorCode, $errorMessage) = $this->parseError($body['response']);
+                    $clientResponses = new ClientResponse($statusCode, $body['response'], $errorCode, $errorMessage);
+                    break;
+                }
             }
 
             return $clientResponses;
