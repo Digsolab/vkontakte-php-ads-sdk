@@ -556,7 +556,7 @@ class VkontakteClient implements VkontakteClientInterface
                 } else {
                     // Single object response
                     list($errorCode, $errorMessage) = $this->parseError($body['response']);
-                    $clientResponses = new ClientResponse($statusCode, $body['response'], $errorCode, $errorMessage);
+                    $clientResponses[] = new ClientResponse($statusCode, $body['response'], $errorCode, $errorMessage);
                     break;
                 }
             }
@@ -574,8 +574,11 @@ class VkontakteClient implements VkontakteClientInterface
      *
      * @return array
      */
-    private function parseError(array $resp)
+    private function parseError($resp)
     {
+        if (!is_array($resp)){
+            return [0, $resp];
+        }
         $errorCode = array_key_exists('error_code', $resp) ? $resp['error_code'] : 0;
         $errorMessage = '';
 
