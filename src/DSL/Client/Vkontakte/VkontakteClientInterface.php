@@ -189,6 +189,167 @@ interface VkontakteClientInterface
     public function getCities($countryId, $regionId, $q, $needAll, $offset, $count, $lang);
 
     /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $clientsData
+     *
+     * @return ClientResponse[]
+     */
+    public function createClients($accountId, $accessToken, array $clientsData);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $clientsData
+     *
+     * @return ClientResponse[]
+     */
+    public function updateClients($accountId, $accessToken, array $clientsData);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $clientIds
+     *
+     * @return ClientResponse[]
+     */
+    public function deleteClients($accountId, $accessToken, array $clientIds);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $campaignsData
+     *
+     * @return ClientResponse[]
+     */
+    public function createCampaigns($accountId, $accessToken, array $campaignsData);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $campaignsData
+     *
+     * @return ClientResponse[]
+     */
+    public function updateCampaigns($accountId, $accessToken, array $campaignsData);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $campaignIds
+     *
+     * @return ClientResponse[]
+     */
+    public function deleteCampaigns($accountId, $accessToken, array $campaignIds);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $adsData
+     *
+     * @return ClientResponse[]
+     */
+    public function createAds($accountId, $accessToken, array $adsData);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $adsData
+     *
+     * @return ClientResponse[]
+     */
+    public function updateAds($accountId, $accessToken, array $adsData);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param array $adIds
+     *
+     * @return ClientResponse[]
+     */
+    public function deleteAds($accountId, $accessToken, array $adIds);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param string $linkType
+     * @param string $linkUrl
+     * @param int $campaignId
+     *
+     * @return ClientResponse[]
+     */
+    public function checkLink($accountId, $accessToken, $linkType, $linkUrl, $campaignId);
+
+    /**
+     * @param string $accessToken
+     * @param int $adFormat
+     *
+     * @return ClientResponse[]
+     */
+    public function getUploadURL($accessToken, $adFormat);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     *
+     * @return ClientResponse[]
+     */
+    public function getFloodStats($accountId, $accessToken);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param int $adId
+     *
+     * @return ClientResponse[]
+     */
+    public function getRejectionReason($accountId, $accessToken, $adId);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param int $targetGroupId
+     * @param string $name
+     * @param string $domain
+     * @param int $lifetime
+     * @param int|null $clientId
+     *
+     * @return ClientResponse[]
+     */
+    public function updateTargetGroup($accountId, $accessToken, $targetGroupId, $name, $domain = '', $lifetime = 0, $clientId = null);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param int $targetGroupId
+     * @param int|null $clientId
+     *
+     * @return ClientResponse[]
+     */
+    public function deleteTargetGroup($accountId, $accessToken, $targetGroupId, $clientId = null);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param int $extended
+     * @param int|null $clientId
+     *
+     * @return ClientResponse[]
+     */
+    public function getTargetGroups($accountId, $accessToken, $extended = 0, $clientId = null);
+
+    /**
+     * @param int $accountId
+     * @param string $accessToken
+     * @param int $targetGroupId
+     * @param string $contacts
+     * @param int|null $clientId
+     *
+     * @return ClientResponse[]
+     */
+    public function importTargetContacts($accountId, $accessToken, $targetGroupId, $contacts, $clientId = null);
+
+    /**
      * @return RequestInterface|null
      */
     public function getLastRequest();
