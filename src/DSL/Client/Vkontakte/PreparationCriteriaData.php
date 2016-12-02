@@ -28,7 +28,7 @@ class PreparationCriteriaData
     }
 
     /**
-     * Возвразает уже подготовленные данные (готовые к отправки в api вк)
+     * Возвращает уже подготовленные данные (готовые к отправки в api вк)
      * @return array
      */
     public function getPreparedSettings()
