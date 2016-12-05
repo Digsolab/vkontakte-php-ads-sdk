@@ -28,7 +28,8 @@ class PreparationCriteriaData
     }
 
     /**
-     * Возвращает уже подготовленные данные (готовые к отправки в api вк)
+     * Returns the data already prepared (ready to send to api VK)
+     *
      * @return array
      */
     public function getPreparedSettings()
@@ -37,7 +38,7 @@ class PreparationCriteriaData
     }
 
     /**
-     * Метод подготовливающий массив "criteria"
+     * A method of preparing an array of "criteria"
      *
      * @param array $settings
      *
@@ -55,9 +56,8 @@ class PreparationCriteriaData
     }
 
     /**
-     * Метод проверяет и если необходимо выставляет начальные значения для возраста
-     * если указана нижняя или верхняя граница возраста необходимо выставить дефолтные значения для второго
-     * параметра возраста
+     * The method checks and if required sets the initial value for age.
+     * If you specify lower or upper age limit, you need to set default values for the second parameter of age
      *
      * @param array $settings
      *
@@ -78,8 +78,8 @@ class PreparationCriteriaData
     }
 
     /**
-     * Метод проверяющий и при необходимости (если значения birthday не пустое) сумирующий массив birthday
-     * и устанавливающий результат сложения праметру birthday
+     * The method of inspection and if necessary (if the values are not empty birthday)
+     * birthday of the summing array and sets the result the parameter of birthday
      *
      * @param array $settings
      *
@@ -90,11 +90,7 @@ class PreparationCriteriaData
         $resetBirthday = isset($settings[self::BIRTHDAY]) && count($settings[self::BIRTHDAY]) > 0;
 
         if ($resetBirthday) {
-            $summBirthdays = 0;
-            foreach ($settings[self::BIRTHDAY] as $birthday) {
-                $summBirthdays += $birthday;
-            }
-            $settings[self::BIRTHDAY] = $summBirthdays;
+            $settings[self::BIRTHDAY] = array_sum($settings[self::BIRTHDAY]);
         }
 
         return $settings;

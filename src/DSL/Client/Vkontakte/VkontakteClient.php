@@ -157,6 +157,7 @@ class VkontakteClient implements VkontakteClientInterface
      */
     public function getCoverage($accountId, $accessToken, array $settings, $linkDomain)
     {
+        //At this place we are changing array "criteria"
         $settings = (new PreparationCriteriaData($settings))->getPreparedSettings();
 
         $settingsStr = $this->jsonConverter->encode($settings);
