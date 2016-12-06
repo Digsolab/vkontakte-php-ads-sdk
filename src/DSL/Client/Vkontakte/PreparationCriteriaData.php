@@ -78,7 +78,7 @@ class PreparationCriteriaData
     }
 
     /**
-     * The method of inspection and if necessary (if the values are not empty birthday)
+     * The method of inspection and if necessary (if the values are not empty birthday and if it array)
      * birthday of the summing array and sets the result the parameter of birthday
      *
      * @param array $settings
@@ -87,7 +87,7 @@ class PreparationCriteriaData
      */
     private function checkAndSummBirthdays(array $settings)
     {
-        $resetBirthday = isset($settings[self::BIRTHDAY]) && count($settings[self::BIRTHDAY]) > 0;
+        $resetBirthday = isset($settings[self::BIRTHDAY]) && is_array($settings[self::BIRTHDAY]) && count($settings[self::BIRTHDAY]) > 0;
 
         if ($resetBirthday) {
             $settings[self::BIRTHDAY] = array_sum($settings[self::BIRTHDAY]);
