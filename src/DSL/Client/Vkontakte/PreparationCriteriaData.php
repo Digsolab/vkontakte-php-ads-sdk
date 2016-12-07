@@ -49,7 +49,7 @@ class PreparationCriteriaData
         $settingsNotEmpty = count($settings) > 0;
         if ($settingsNotEmpty) {
             $settings = $this->checkAndSetDefaultValueAge($settings);
-            $settings = $this->checkAndSummBirthdays($settings);
+            $settings = $this->checkAndSumBirthdays($settings);
         }
 
         return $settings;
@@ -78,16 +78,17 @@ class PreparationCriteriaData
     }
 
     /**
-     * The method of inspection and if necessary (if the values are not empty birthday and if it array)
+     * The method of inspection and if necessary (if the values are not empty birthday and if it is array)
      * birthday of the summing array and sets the result the parameter of birthday
      *
      * @param array $settings
      *
      * @return array
      */
-    private function checkAndSummBirthdays(array $settings)
+    private function checkAndSumBirthdays(array $settings)
     {
-        $resetBirthday = isset($settings[self::BIRTHDAY]) && is_array($settings[self::BIRTHDAY]) && count($settings[self::BIRTHDAY]) > 0;
+        $resetBirthday = isset($settings[self::BIRTHDAY]) && is_array($settings[self::BIRTHDAY])
+            && count($settings[self::BIRTHDAY]) > 0;
 
         if ($resetBirthday) {
             $settings[self::BIRTHDAY] = array_sum($settings[self::BIRTHDAY]);
