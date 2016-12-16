@@ -42,6 +42,7 @@ class PreparationCriteriaDataTest extends \PHPUnit_Framework_TestCase
             [[$ageTo => 20], [$ageFrom => $ageFromDefault, $ageTo => 20]],
             [[$ageFrom => 20, $ageTo => 40], [$ageFrom => 20, $ageTo => 40]],
             [[$ageFrom => 12, $ageTo => 40], [$ageFrom => 14, $ageTo => 40]],
+            [[$ageFrom => 12], [$ageFrom => 14, $ageTo => 40]],
 
             //other value
             [[$otherPropertyFirst => $otherPropertyFirst], [$otherPropertyFirst => $otherPropertyFirst]],

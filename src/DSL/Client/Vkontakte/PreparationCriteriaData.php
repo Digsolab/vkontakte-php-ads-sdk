@@ -72,7 +72,8 @@ class PreparationCriteriaData
 
         if ($ageFromNotEmpty && ! $ageToNotEmpty) {
             $settings[self::AGE_TO] = self::DEFAULT_CRITERIA_AGE_TO;
-        } elseif ( (! $ageFromNotEmpty && $ageToNotEmpty) || $ageLessDefault) {
+        }
+        if ( (! $ageFromNotEmpty && $ageToNotEmpty) || $ageLessDefault) {
             $settings[self::AGE_FROM] = self::DEFAULT_CRITERIA_AGE_FROM;
         }
 
