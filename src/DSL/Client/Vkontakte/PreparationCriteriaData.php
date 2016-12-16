@@ -8,12 +8,12 @@ namespace DSL\Client\Vkontakte;
  */
 class PreparationCriteriaData
 {
-    const DEFAULT_CRITERIA_AGE_FROM = 12;
+    const DEFAULT_CRITERIA_AGE_FROM = 14;
     const DEFAULT_CRITERIA_AGE_TO   = 65;
 
-    const AGE_FROM     = 'age_from';
-    const AGE_TO       = 'age_to';
-    const BIRTHDAY     = 'birthday';
+    const AGE_FROM = 'age_from';
+    const AGE_TO   = 'age_to';
+    const BIRTHDAY = 'birthday';
 
     private $preparedSettings;
 
@@ -66,11 +66,13 @@ class PreparationCriteriaData
     private function checkAndSetDefaultValueAge(array $settings)
     {
         $ageFromNotEmpty = isset($settings[self::AGE_FROM]) && $settings[self::AGE_FROM] > 0;
+        $ageLessDefault  = isset($settings[self::AGE_FROM]) && $settings[self::AGE_FROM] < self::DEFAULT_CRITERIA_AGE_FROM;
+
         $ageToNotEmpty   = isset($settings[self::AGE_TO]) && $settings[self::AGE_TO] > 0;
 
         if ($ageFromNotEmpty && ! $ageToNotEmpty) {
             $settings[self::AGE_TO] = self::DEFAULT_CRITERIA_AGE_TO;
-        } elseif ( ! $ageFromNotEmpty && $ageToNotEmpty) {
+        } elseif ( (! $ageFromNotEmpty && $ageToNotEmpty) || $ageLessDefault) {
             $settings[self::AGE_FROM] = self::DEFAULT_CRITERIA_AGE_FROM;
         }
 

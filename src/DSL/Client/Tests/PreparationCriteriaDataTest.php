@@ -22,7 +22,7 @@ class PreparationCriteriaDataTest extends \PHPUnit_Framework_TestCase
         $ageTo = 'age_to';
         $otherPropertyFirst = 'otherPropertyFirst';
 
-        $ageFromDefault = 12;
+        $ageFromDefault = 14;
         $ageToDefault = 65;
 
         return [
@@ -41,6 +41,7 @@ class PreparationCriteriaDataTest extends \PHPUnit_Framework_TestCase
             [[$ageFrom => 20], [$ageFrom => 20, $ageTo => $ageToDefault]],
             [[$ageTo => 20], [$ageFrom => $ageFromDefault, $ageTo => 20]],
             [[$ageFrom => 20, $ageTo => 40], [$ageFrom => 20, $ageTo => 40]],
+            [[$ageFrom => 12, $ageTo => 40], [$ageFrom => 14, $ageTo => 40]],
 
             //other value
             [[$otherPropertyFirst => $otherPropertyFirst], [$otherPropertyFirst => $otherPropertyFirst]],
