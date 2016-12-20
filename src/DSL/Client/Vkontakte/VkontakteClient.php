@@ -20,6 +20,8 @@ class VkontakteClient implements VkontakteClientInterface
     const ERROR_INVALID_INPUT = 100;
     const ERROR_UNKNOWN = - 100;
 
+    const DEFAULT_API_VERSION = '5.60';
+
     const KEY_DATA = 'data';
     const KEY_IDS = 'ids';
 
@@ -46,15 +48,19 @@ class VkontakteClient implements VkontakteClientInterface
     protected $lastRequest;
     /** @var ResponseInterface */
     protected $lastResponse;
+    /** @var string */
+    protected $apiVersion;
 
     /**
      * @param ClientInterface $transport
      * @param JsonConverter   $jsonConverter
+     * @param string          $apiVersion
      */
-    public function __construct(ClientInterface $transport, JsonConverter $jsonConverter)
+    public function __construct(ClientInterface $transport, JsonConverter $jsonConverter, $apiVersion = self::DEFAULT_API_VERSION)
     {
         $this->transport = $transport;
         $this->jsonConverter = $jsonConverter;
+        $this->apiVersion = $apiVersion;
     }
 
     /**
@@ -806,7 +812,7 @@ class VkontakteClient implements VkontakteClientInterface
 
         return $this->call('ads.importTargetContacts', $body, []);
     }
-    
+
     /**
      * {@inheritdoc}
      *
@@ -823,6 +829,13 @@ class VkontakteClient implements VkontakteClientInterface
             $headers,
             [
                 'Content-Type' => 'application/x-www-form-urlencoded',
+            ]
+        );
+
+        $body = array_merge(
+            $body,
+            [
+                'v' => $this->apiVersion,
             ]
         );
 
